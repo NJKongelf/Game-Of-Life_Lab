@@ -1,17 +1,54 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+
 public class GOL {
     int width;
     int height;
     int[][] board;
+    List<Point> boardList = new ArrayList<Point>();
+
 
     public GOL(int width, int height) {
         this.width = width;
         this.height = height;
         this.board = new int[width][height];
+        for (int i = 0; i <= width ; i++) {
+            for (int j = 0; j <=height ; j++) {
+                boardList.add(new Point(i,j,false));
+            }
+        }
+
+    }
+
+
+    private String accept(Point point) {
+        if (!point.isState())
+            return ".";
+        return "*";
     }
 
     public void printBoard() {
-        System.out.println("---");
-        for (int y = 0; y < height; y++) {
+        System.out.println(" -------");
+
+        for (int i = 0; i <=width  ; i++) {
+            String line = "|";
+            System.out.print(line);
+            int finalI = i;
+
+             boardList.stream()
+                    .filter(point -> point.getX() == finalI)
+
+                    .forEach(point -> {
+                        System.out.print(accept(point));
+                    });
+
+            System.out.println(line);
+        }
+
+       /* for (int y = 0; y < height; y++) {
             String line = "|";
             for (int x = 0; x < width; x++) {
                 if (this.board[x][y] == 0) {
@@ -22,19 +59,30 @@ public class GOL {
             }
             line += "|";
             System.out.println(line);
-        }
-        System.out.println("---\n");
+        }*/
+        System.out.println(" -------\n");
     }
 
     public void setAlive(int x, int y) {
-        this.board[x][y] = 1;
+        boardList.stream()
+                .filter(px -> px.getX()==x)
+                .filter(py -> py.getY()==y)
+                .forEach(point -> point.setState(true));
+        //this.board[x][y] = 1;
     }
 
     public void setDead(int x, int y) {
-        this.board[x][y] = 0;
+        boardList.stream()
+                .filter(point -> point.getX()==x)
+                .filter(point -> point.getY()==y)
+                .forEach(point -> point.setState(false));
+        // this.board[x][y] = 0;
     }
 
-    public int countAliveNeighbours(int x, int y) {
+    public int countAliveNeighbours(Point point, List<Optional<Point>> templist) {
+    //public int countAliveNeighbours(int x, int y) {
+        int x = point.getX();
+        int y = point.getY();
         int count = 0;
 
         count += getState(x - 1, y - 1);
@@ -75,7 +123,7 @@ public class GOL {
                         newBoard[x][y] = 0;
                     } else if (aliveNeighbours == 2 || aliveNeighbours == 3) {
                         newBoard[x][y] = 1;
-                    } else if (aliveNeighbours > 3) {
+                    } else {
                         newBoard[x][y] = 0;
                     }
                 } else {
@@ -107,5 +155,32 @@ public class GOL {
 
         simulation.printBoard();
 
+    }
+}
+class Point{
+    private final int x;
+    private final int y;
+    private boolean state;
+
+    public Point(int x, int y, boolean state) {
+        this.x = x;
+        this.y = y;
+        this.state = state;
+    }
+
+    public int getX() {
+        return this.x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
     }
 }
