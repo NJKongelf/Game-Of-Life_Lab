@@ -8,7 +8,9 @@
     <artifactId>Game-Of-Life_Lab</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-         <dependencies>
+
+<dependencies>
+
     <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
@@ -21,8 +23,14 @@
         <version>5.7.0</version>
         <scope>test</scope>
     </dependency>
-</dependencies>
 
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
 
     <build>
         <plugins>
