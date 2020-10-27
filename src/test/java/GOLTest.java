@@ -14,18 +14,11 @@ public class GOLTest {
     }
 
     @Test
-    void shouldReturnValuesOfInput() {
-        gameOfLife = new GOL(2, 2);
-        assertEquals(gameOfLife.height, 2);
-        assertEquals(gameOfLife.width, 2);
-    }
-
-    @Test
     void shouldReturnAnIntOFHowManyActiveCells() {
         gameOfLife = new GOL(3, 3);
         gameOfLife.setAlive(1, 1);
-        assertEquals(1, gameOfLife.countAliveNeighbours(new Point(1, 0, false), gameOfLife.boardList));
-        assertEquals(1, gameOfLife.countAliveNeighbours(new Point(1, 2, false), gameOfLife.boardList));
+        assertEquals(1, gameOfLife.countAliveNeighbours(new Point(1, 0, false), gameOfLife.getBoardList()));
+        assertEquals(1, gameOfLife.countAliveNeighbours(new Point(1, 2, false), gameOfLife.getBoardList()));
     }
 
     @Test
@@ -34,7 +27,7 @@ public class GOLTest {
         gameOfLife.setAlive(0, 1);
         gameOfLife.setAlive(1, 1);
         gameOfLife.setAlive(2, 1);
-        assertEquals(3, gameOfLife.countAliveNeighbours(new Point(1, 0, false), gameOfLife.boardList));
+        assertEquals(3, gameOfLife.countAliveNeighbours(new Point(1, 0, false), gameOfLife.getBoardList()));
 
     }
 }
