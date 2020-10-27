@@ -1,23 +1,21 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 
 public class GOL {
     int width;
     int height;
     int[][] board;
-    List<Point> boardList = new ArrayList<Point>();
+    List<Optional<Point>> boardList = new ArrayList<Optional<Point>>();
 
 
     public GOL(int width, int height) {
         this.width = width;
         this.height = height;
         this.board = new int[width][height];
-        for (int i = 0; i <= width ; i++) {
-            for (int j = 0; j <=height ; j++) {
-                boardList.add(new Point(i,j,false));
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                boardList.add(Optional.of(new Point(i, j, false)));
             }
         }
 
@@ -31,71 +29,85 @@ public class GOL {
     }
 
     public void printBoard() {
-        System.out.println(" -------");
+        System.out.println("-------");
 
-        for (int i = 0; i <=width  ; i++) {
+        for (int i = 0; i < width; i++) {
             String line = "|";
             System.out.print(line);
             int finalI = i;
 
-             boardList.stream()
-                    .filter(point -> point.getX() == finalI)
-
+            boardList.stream()
+                    .filter(point ->
+                            point.get().getX() == finalI)
                     .forEach(point -> {
-                        System.out.print(accept(point));
+                        System.out.print(accept(point.get()));
                     });
 
             System.out.println(line);
         }
-
-       /* for (int y = 0; y < height; y++) {
-            String line = "|";
-            for (int x = 0; x < width; x++) {
-                if (this.board[x][y] == 0) {
-                    line += ".";
-                } else {
-                    line += "*";
-                }
-            }
-            line += "|";
-            System.out.println(line);
-        }*/
-        System.out.println(" -------\n");
+        System.out.println("-------\n");
     }
 
     public void setAlive(int x, int y) {
         boardList.stream()
-                .filter(px -> px.getX()==x)
-                .filter(py -> py.getY()==y)
-                .forEach(point -> point.setState(true));
-        //this.board[x][y] = 1;
+                .filter(px -> px.get().getX() == x)
+                .filter(py -> py.get().getY() == y)
+                .forEach(point -> point.get().setState(true));
     }
 
     public void setDead(int x, int y) {
         boardList.stream()
-                .filter(point -> point.getX()==x)
-                .filter(point -> point.getY()==y)
-                .forEach(point -> point.setState(false));
-        // this.board[x][y] = 0;
+                .filter(point -> point.get().getX() == x)
+                .filter(point -> point.get().getY() == y)
+                .forEach(point -> point.get().setState(false));
     }
 
-    public int countAliveNeighbours(Point point, List<Optional<Point>> templist) {
-    //public int countAliveNeighbours(int x, int y) {
+    public long countAliveNeighbours(Point point, List<Optional<Point>> templist) {
+        //public int countAliveNeighbours(int x, int y) {
         int x = point.getX();
         int y = point.getY();
-        int count = 0;
-
-        count += getState(x - 1, y - 1);
-        count += getState(x, y - 1);
-        count += getState(x + 1, y - 1);
-
-        count += getState(x - 1, y);
-        count += getState(x + 1, y);
-
-        count += getState(x - 1, y + 1);
-        count += getState(x, y + 1);
-        count += getState(x + 1, y + 1);
-
+        long count;
+        long above1 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x - 1)
+                .filter(point1 -> point1.get().getY() == y - 1)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long above2 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x - 1)
+                .filter(point1 -> point1.get().getY() == y)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long above3 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x - 1)
+                .filter(point1 -> point1.get().getY() == y + 1)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long aSide1 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x)
+                .filter(point1 -> point1.get().getY() == y - 1)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long aSide2 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x)
+                .filter(point1 -> point1.get().getY() == y + 1)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long under1 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x + 1)
+                .filter(point1 -> point1.get().getY() == y - 1)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long under2 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x + 1)
+                .filter(point1 -> point1.get().getY() == y)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        long under3 = templist.stream()
+                .filter(point1 -> point1.get().getX() == x + 1)
+                .filter(point1 -> point1.get().getY() == y + 1)
+                .filter(point1 -> point1.get().isState())
+                .count();
+        count = above1 + above2 + above3 + aSide1 + aSide2 + under1 + under2 + under3;
         return count;
     }
 
@@ -112,38 +124,38 @@ public class GOL {
     }
 
     public void step() {
-        int[][] newBoard = new int[width][height];
-
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                int aliveNeighbours = countAliveNeighbours(x, y);
-
-                if (getState(x, y) == 1) {
-                    if (aliveNeighbours < 2) {
-                        newBoard[x][y] = 0;
-                    } else if (aliveNeighbours == 2 || aliveNeighbours == 3) {
-                        newBoard[x][y] = 1;
-                    } else {
-                        newBoard[x][y] = 0;
-                    }
-                } else {
-                    if (aliveNeighbours == 3) {
-                        newBoard[x][y] = 1;
-                    }
-                }
-
+        List<Optional<Point>> newboardList = new ArrayList<Optional<Point>>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                newboardList.add(Optional.of(new Point(i, j, true)));
             }
         }
+        newboardList.stream()
+                .map(Optional::get)
+                .forEach(point -> {
+                    if (boardList.stream()
+                            .filter(p -> p.get().getX() == point.getX())
+                            .filter(p -> p.get().getY() == point.getY())
+                            .filter(p -> p.get().isState())
+                            .count() == 1) {
 
-        this.board = newBoard;
+                        int aliveNeighbours = (int) countAliveNeighbours(point, boardList);
+                        point.setState(aliveNeighbours == 2);
+                    } else {
+                        int aliveNeighbours = (int) countAliveNeighbours(point, boardList);
+                        point.setState(aliveNeighbours == 3);
+                    }
+                });
+
+        this.boardList = newboardList;
     }
 
     public static void main(String[] args) {
-        GOL simulation = new GOL(8, 5);
+        GOL simulation = new GOL(7, 8);
 
-        simulation.setAlive(2, 2);
-        simulation.setAlive(3, 2);
-        simulation.setAlive(4, 2);
+        simulation.setAlive(2, 4);
+        simulation.setAlive(3, 4);
+        simulation.setAlive(4, 4);
 
         simulation.printBoard();
 
@@ -173,7 +185,7 @@ class Point{
     }
 
     public int getY() {
-        return y;
+        return this.y;
     }
 
     public boolean isState() {
