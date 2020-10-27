@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
+import java.util.stream.Collectors;
 
 public class GOL {
     private List<Optional<Point>> boardList = new ArrayList<Optional<Point>>();
@@ -25,24 +26,19 @@ public class GOL {
         return "*";
     }
 
-    public void printBoard() {
-        System.out.println("-------");
+    public String printBoard() {
+        StringBuilder line = new StringBuilder();
         OptionalInt opX = boardList.stream().mapToInt(p -> p.get().getX()).max();
         for (int i = 0; i < opX.getAsInt() + 1; i++) {
-            String line = "|";
-            System.out.print(line);
             int finalI = i;
-
-            boardList.stream()
+            line.append(boardList.stream()
                     .filter(point ->
                             point.get().getX() == finalI)
-                    .forEach(point -> {
-                        System.out.print(accept(point.get()));
-                    });
-
-            System.out.println(line);
+                    .map(point -> {
+                        return accept(point.get());
+                    }).collect(Collectors.joining())).append("\n");
         }
-        System.out.println("-------\n");
+        return line.toString();
     }
 
     public void setAlive(int x, int y) {
@@ -144,17 +140,17 @@ public class GOL {
     }
 
     public static void main(String[] args) {
-        GOL simulation = new GOL(7, 8);
+        GOL simulation = new GOL(9, 9);
 
         simulation.setAlive(2, 4);
         simulation.setAlive(3, 4);
         simulation.setAlive(4, 4);
 
-        simulation.printBoard();
+        System.out.println(simulation.printBoard());
 
         simulation.step();
 
-        simulation.printBoard();
+        System.out.println(simulation.printBoard());
 
         simulation.step();
 

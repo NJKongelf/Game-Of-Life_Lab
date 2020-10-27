@@ -30,4 +30,15 @@ public class GOLTest {
         assertEquals(3, gameOfLife.countAliveNeighbours(new Point(1, 0, false), gameOfLife.getBoardList()));
 
     }
+
+    @Test
+    void shouldReturnAnStringOFHowManyActiveCellsWhenTestingSevralPoints() {
+        gameOfLife = new GOL(3, 3);
+        gameOfLife.setAlive(0, 1);
+        gameOfLife.setAlive(1, 1);
+        gameOfLife.setAlive(2, 1);
+        String Line = ".*.\n" + ".*.\n" + ".*.\n";
+        assertEquals(Line, gameOfLife.printBoard());
+
+    }
 }
