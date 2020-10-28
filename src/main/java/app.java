@@ -4,6 +4,7 @@ import java.io.IOException;
 
 public class app {
     public static void main(String[] args) {
+
         GOL gameoflife = new GOL(3, 3);
         gameoflife.setAlive(0, 1);
         gameoflife.setAlive(1, 1);
@@ -29,7 +30,7 @@ public class app {
         gameoflife.setAlive(0, 2);
         gameoflife.setAlive(1, 1);
         gameoflife.setAlive(2, 0);
-        line = new StringBuilder();
+
         System.out.println(gameoflife.printBoard());
         line.append("Generation 1\n");
         line.append(gameoflife.printBoard());

@@ -1,12 +1,13 @@
+
 public class Point {
     private final int x;
     private final int y;
-    private boolean state;
 
-    public Point(int x, int y, boolean state) {
+    //  private boolean state;
+
+    public Point(int x, int y) {
         this.x = x;
         this.y = y;
-        this.state = state;
     }
 
     public int getX() {
@@ -17,11 +18,13 @@ public class Point {
         return this.y;
     }
 
-    public boolean isState() {
+   /* public boolean isState() {
         return state;
     }
 
     public void setState(boolean state) {
         this.state = state;
     }
+
+    */
 }
