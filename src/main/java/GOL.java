@@ -108,6 +108,7 @@ public class GOL {
                         && point1.getY() == y + 1
                         && point1.isState())
                 .count();
+
         return count;
     }
 
@@ -130,7 +131,7 @@ public class GOL {
                             .filter(p -> p.get().getY() == point.getY())
                             .filter(p -> p.get().isState())
                             .count() == 1) {
-                        point.setState(aliveNeighbours == 2);
+                        point.setState(aliveNeighbours == 2 || aliveNeighbours == 3);
                     } else {
                         point.setState(aliveNeighbours == 3);
                     }
