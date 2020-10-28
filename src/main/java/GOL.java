@@ -139,27 +139,5 @@ public class GOL {
         this.boardList = newboardList;
     }
 
-    public static void main(String[] args) {
-        GOL simulation = new GOL(9, 9);
-
-        simulation.setAlive(2, 4);
-        simulation.setAlive(3, 4);
-        simulation.setAlive(4, 4);
-
-        System.out.println(simulation.printBoard());
-
-        simulation.step();
-
-        System.out.println(simulation.printBoard());
-
-        simulation.step();
-
-        simulation.printBoard();
-
-        simulation.setAlive(2, 4);
-        simulation.setAlive(3, 4);
-        simulation.setAlive(4, 4);
-
-    }
 }
 
