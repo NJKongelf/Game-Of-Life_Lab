@@ -1,0 +1,5 @@
+
+Game Of Life Laboratory for ITHS Java 19 Clean Code course.
+Project done by Nicklas Johansson & Luis Gutierrez
+Nicklas Johansson - github : NJKongelf
+Luis Gutierrez    - github : lfgn84
