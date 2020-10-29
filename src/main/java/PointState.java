@@ -1,6 +1,6 @@
 public enum PointState {
-    ALIVE("*"),
-    DEAD(".");
+    ALIVE("¤"),
+    DEAD(" ");
     private String message;
 
     PointState(String message) {

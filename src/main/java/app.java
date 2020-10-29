@@ -4,47 +4,23 @@ import java.io.IOException;
 
 public class app {
     public static void main(String[] args) {
-
-        GOL gameoflife = new GOL(3, 3);
-        gameoflife.setAlive(0, 1);
-        gameoflife.setAlive(1, 1);
-        gameoflife.setAlive(2, 1);
         StringBuilder line = new StringBuilder();
-        System.out.println(gameoflife.printBoard());
-        line.append("Generation 1\n");
-        line.append(gameoflife.printBoard());
-        line.append("\n");
-        gameoflife.step();
-        System.out.println(gameoflife.printBoard());
-        line.append("Generation 2\n");
-        line.append(gameoflife.printBoard());
-        line.append("\n");
-        gameoflife.step();
-        System.out.println(gameoflife.printBoard());
-        line.append("Generation 3\n");
-        line.append(gameoflife.printBoard());
-        line.append("\n");
+        GOL gameoflife = new GOL(30, 30);
+        gameoflife.setAlive(8, 8);
+        gameoflife.setAlive(9, 9);
+        gameoflife.setAlive(10, 10);
 
-        gameoflife = new GOL(3, 3);
-        gameoflife.setAlive(0, 0);
-        gameoflife.setAlive(0, 2);
-        gameoflife.setAlive(1, 1);
-        gameoflife.setAlive(2, 0);
+        gameoflife.setAlive(11, 9);
+        gameoflife.setAlive(12, 8);
+        for (int i = 0; i < 100; i++) {
 
-        System.out.println(gameoflife.printBoard());
-        line.append("Generation 1\n");
-        line.append(gameoflife.printBoard());
-        line.append("\n");
-        gameoflife.step();
-        System.out.println(gameoflife.printBoard());
-        line.append("Generation 2\n");
-        line.append(gameoflife.printBoard());
-        line.append("\n");
-        gameoflife.step();
-        System.out.println(gameoflife.printBoard());
-        line.append("Generation 3\n");
-        line.append(gameoflife.printBoard());
-        line.append("\n");
+            System.out.println(gameoflife.printBoard());
+            line.append("Generation "+i+"\n");
+            line.append(gameoflife.printBoard());
+            line.append("\n");
+            gameoflife.step();
+        }
+
 
         try {
             FileWriter out = new FileWriter(new File("output.txt"));
