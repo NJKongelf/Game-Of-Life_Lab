@@ -61,9 +61,9 @@ public class GOLTest {
         gameOfLife.setAlive(0, 1);
         gameOfLife.setAlive(1, 1);
         gameOfLife.setAlive(2, 1);
-        String Line = ".*.\n" + ".*.\n" + ".*.\n";
+        String Line = " ¤ \n" + " ¤ \n" + " ¤ \n";
         assertEquals(Line, gameOfLife.printBoard());
-        Line = "...\n" + "***\n" + "...\n";
+        Line = "   \n" + "¤¤¤\n" + "   \n";
         gameOfLife.step();
         assertEquals(Line, gameOfLife.printBoard());
     }
