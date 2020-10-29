@@ -89,17 +89,22 @@ public class GOL {
     public void step() {
         List<Optional<Point>> newboardList = new ArrayList<Optional<Point>>();
         for (int i = 0; i < maxX.getAsInt(); i++) {
-            for (int j = 0; j < maxY.getAsInt(); j++) {
-                Point point = new Point(i, j);
-                int aliveNeighboursOnPoint = (int) countAliveNeighbours(point, boardList);
-                if (checkIfPointExistsInList(point.getX(), point.getY()) && (aliveNeighboursOnPoint == 2 || aliveNeighboursOnPoint == 3))
-                    newboardList.add(Optional.of(point));
-                else if (aliveNeighboursOnPoint == 3)
-                    newboardList.add(Optional.of(point));
-            }
+            CheckPointsInEachCollumInGrid(newboardList, i);
         }
-
         this.boardList = newboardList;
+    }
+
+    private void CheckPointsInEachCollumInGrid(List<Optional<Point>> newboardList, int i) {
+        for (int j = 0; j < maxY.getAsInt(); j++) {
+            Point point = new Point(i, j);
+            int aliveNeighboursOnPoint = (int) countAliveNeighbours(point, boardList);
+
+            if (checkIfPointExistsInList(point.getX(), point.getY())
+                    && (aliveNeighboursOnPoint == 2 || aliveNeighboursOnPoint == 3))
+                newboardList.add(Optional.of(point));
+            else if (aliveNeighboursOnPoint == 3)
+                newboardList.add(Optional.of(point));
+        }
     }
 
 }
